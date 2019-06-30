@@ -2,8 +2,27 @@
   text-align: center;
 }
 
+body {
+  background: #ffffff url("assets/images/nuggets.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .Card {
   width: 18rem;
   margin: auto;
   margin-top: 10rem;
+}
+
+.textContainer {
+  height: 140px;
+}
+
+.formContainer {
+  border: solid 1px #0069d9;
+  border-radius: .25rem;
+  margin: 5px;
+  padding: 10px;
 }
