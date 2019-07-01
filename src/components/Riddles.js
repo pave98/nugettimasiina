@@ -2,81 +2,78 @@ import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
-export default class Riddles extends Component {
+import { withRouter } from 'react-router-dom'
+
+class Riddles extends Component {
   constructor(props) {
     super(props)
     this.state = {
       page: 1,
-      answer1: '',
-      answer2: '',
-      answer3: '',
-      answer4: '',
-      answer5: '',
-      answer6: '',
-      answer7: '',
-      answer8: '',
-      isEnabled: false,
-      checkable: ''
+      answer: '',
+      realAnswer: 'mountain',
+      isEnabled: false
     }
-    this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.setKaikki = this.setKaikki.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.changeAnswer = this.changeAnswer.bind(this)
+    this.routeChange = this.routeChange.bind(this)
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value })
+  componentDidUpdate() {}
+
+  handleChange(e) {
+    this.setState({ answer: e.target.value })
   }
 
-  setKaikki(checkable) {
-    this.setState({ checkable })
+  routeChange() {
+    let path = `/reveal`
+    this.props.history.push(path)
   }
 
-  handleSubmit(event, answer) {
-    if (this.state.page === 1) {
-      this.setState({ isEnabled: this.state.answer1.toLowerCase() === 'mountain' })
-    } else if (this.state.page === 2) {
-      this.setState({ isEnabled: this.state.answer2.toLowerCase() === 'teeth' })
-    } else if (this.state.page === 3) {
-      this.setState({ isEnabled: this.state.answer3.toLowerCase() === 'wind' })
-    } else if (this.state.page === 4) {
-      this.setState({ isEnabled: this.state.answer4.toLowerCase() === 'the sun' })
-    } else if (this.state.page === 5) {
-      this.setState({ isEnabled: this.state.answer5.toLowerCase() === 'dark' })
-    } else if (this.state.page === 6) {
-      this.setState({ isEnabled: this.state.answer6.toLowerCase() === 'an egg' })
-    } else if (this.state.page === 7) {
-      this.setState({ isEnabled: this.state.answer7.toLowerCase() === 'fish' })
-    } else if (this.state.page === 8) {
-      this.setState({ isEnabled: this.state.answer8.toLowerCase() === 'time' })
-    }
-
+  handleSubmit(event) {
     event.preventDefault()
+    let x = String(this.state.answer.toLowerCase())
+    let y = String(this.state.realAnswer.toLowerCase())
+
+    setTimeout(() => {
+      console.log('answer: ' + x)
+      console.log('real answer: ' + y)
+      console.log(x.includes(y))
+
+      if (x.includes(y)) {
+        alert('Oikein')
+        this.setState({ isEnabled: true })
+      } else {
+        alert('Väärin')
+      }
+      this.setState({ answer: '' })
+    }, 3000)
+  }
+
+  changeAnswer() {
+    if (this.state.page === 1) {
+      this.setState({ realAnswer: 'mountain' })
+    } else if (this.state.page === 2) {
+      this.setState({ realAnswer: 'teeth' })
+    } else if (this.state.page === 3) {
+      this.setState({ realAnswer: 'wind' })
+    } else if (this.state.page === 4) {
+      this.setState({ realAnswer: 'sun' })
+    } else if (this.state.page === 5) {
+      this.setState({ realAnswer: 'dark' })
+    } else if (this.state.page === 6) {
+      this.setState({ realAnswer: 'egg' })
+    } else if (this.state.page === 7) {
+      this.setState({ realAnswer: 'fish' })
+    } else if (this.state.page === 8) {
+      this.setState({ realAnswer: 'time' })
+    } else if (this.state.page === 9) {
+      this.setState({ realAnswer: 'nugetti' })
+    }
   }
 
   render() {
     let block
-    let checkable
-
-    if (this.state.page === 1) {
-      this.checkable = this.state.answer1
-      console.log('32423423')
-    } else if (this.state.page === 2) {
-      this.checkable = this.state.answer2
-    } else if (this.state.page === 3) {
-      this.checkable = this.state.answer3
-    } else if (this.state.page === 4) {
-      this.checkable = this.state.answer4
-    } else if (this.state.page === 5) {
-      this.checkable = this.state.answer5
-    } else if (this.state.page === 6) {
-      this.checkable = this.state.answer6
-    } else if (this.state.page === 7) {
-      this.checkable = this.state.answer7
-    } else if (this.state.page === 8) {
-      this.checkable = this.state.answer8
-    }
-
-    this.setKaikki(checkable)
 
     switch (this.state.page) {
       case 1:
@@ -87,21 +84,6 @@ export default class Riddles extends Component {
               What has roots as nobody sees,<br /> Is taller than trees,<br /> Up, up it goes,<br /> And yet never
               grows?
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer1">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Your Answer"
-                  value={this.state.answer1}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-
-              <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -113,16 +95,6 @@ export default class Riddles extends Component {
               Thirty white horses on a red hill,<br /> First they champ,<br /> Then they stamp,<br /> Then they stand
               still.
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer2">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -133,16 +105,6 @@ export default class Riddles extends Component {
             <Card.Text className="textContainer">
               Voiceless it cries,<br /> Wingless flutters,<br /> Toothless bites,<br /> Mouthless mutters.
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer3">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -154,16 +116,6 @@ export default class Riddles extends Component {
               An eye in a blue face<br /> Saw an eye in a green face.<br /> "That eye is like to this eye"<br /> Said
               the first eye,<br /> "But in low place,<br /> Not in high place."
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer4">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -176,16 +128,6 @@ export default class Riddles extends Component {
               under hills,<br />
               And empty holes it fills.<br /> It comes first and follows after,<br /> Ends life, kills laughter.
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer5">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -196,16 +138,6 @@ export default class Riddles extends Component {
             <Card.Text className="textContainer">
               A box without hinges, key, or lid,<br /> Yet golden treasure inside is hid.
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer6">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -217,16 +149,6 @@ export default class Riddles extends Component {
               Alive without breath,<br /> As cold as death;<br /> Never thirsty, ever drinking,<br /> All in mail never
               clinking.
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer7">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
           </div>
         )
         break
@@ -238,16 +160,16 @@ export default class Riddles extends Component {
               This thing all things devours: <br />Birds, beasts, trees, flowers; <br />Gnaws iron, bites steel;<br />{' '}
               Grinds hard stones to meal;<br /> Slays king, ruins town,<br /> And beats high mountain down.
             </Card.Text>
-            <Form className="formContainer">
-              <Form.Group controlId="answer8">
-                <Form.Label>Answer</Form.Label>
-                <Form.Control type="text" placeholder="Enter Your Answer" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+          </div>
+        )
+        break
+      case 9:
+        block = (
+          <div>
+            <Card.Title>Decode</Card.Title>
+            <Card.Text className="textContainer">
+              01101110 01110101 01100111 01100101 01110100 01110100 01101001
+            </Card.Text>
           </div>
         )
         break
@@ -258,11 +180,29 @@ export default class Riddles extends Component {
       <Card className="Card" style={{}}>
         <Card.Body>
           {block}
+          <Form className="formContainer">
+            <Form.Group controlId="answer">
+              <Form.Label>Answer</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Your Answer"
+                value={this.state.answer}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+              Submit
+            </Button>
+          </Form>
           <Button
             variant="primary"
             onClick={() => {
               if (this.state.page > 1) {
-                this.setState({ page: this.state.page - 1 })
+                this.setState({ page: this.state.page - 1, isEnabled: false, answer: '' })
+                setTimeout(() => {
+                  this.changeAnswer()
+                }, 100)
               }
             }}
           >
@@ -271,10 +211,14 @@ export default class Riddles extends Component {
           <Button
             variant="primary"
             onClick={() => {
-              if (this.state.page < 8) {
-                this.setState({ page: this.state.page + 1 })
+              if (this.state.page < 9) {
+                this.setState({ page: this.state.page + 1, isEnabled: false, answer: '' })
+                setTimeout(() => {
+                  this.changeAnswer()
+                }, 100)
+              } else if (this.state.page === 9) {
+                this.routeChange()
               }
-              this.setState({ isEnabled: false })
             }}
             disabled={!this.state.isEnabled}
           >
@@ -285,3 +229,5 @@ export default class Riddles extends Component {
     )
   }
 }
+
+export default withRouter(Riddles)

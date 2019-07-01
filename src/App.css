@@ -20,6 +20,15 @@ body {
   height: 140px;
 }
 
+.CardReveal {
+  margin: auto;
+  margin-top: 10rem;
+  text-align: left;
+  width: 25rem;
+  font-family: 'Amatic SC', cursive;
+  font-size: 30px;
+}
+
 .formContainer {
   border: solid 1px #0069d9;
   border-radius: .25rem;
