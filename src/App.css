@@ -20,6 +20,15 @@ body {
   height: 140px;
 }
 
+.RealFont {
+  font-family: 'Amatic SC', cursive;
+}
+
+.Buttons {
+  margin: 10px;
+  width: 40%;
+}
+
 .CardReveal {
   margin: auto;
   margin-top: 10rem;

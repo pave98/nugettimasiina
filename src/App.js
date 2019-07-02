@@ -6,10 +6,13 @@ import Reveal from './components/Reveal'
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
+      <h1 className='RealFont' style={{ marginTop: 100, fontSize: '8rem' }}>
+        Nugetti-Masiina
+      </h1>
       <Router>
-        <Route path="/" exact component={Riddles} />
-        <Route path="/Reveal/" component={Reveal} />
+        <Route path='/' exact component={Riddles} />
+        <Route path='/RevealReal/' component={Reveal} />
       </Router>
     </div>
   )
